@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Site chrome (Header/Footer) and shared page blocks live in src/components/site; pages compose them so every route stays visually consistent.
+- Forms use EmailForm (mailto to the org address) until a backend is connected — nothing is stored, so no fake submissions exist.

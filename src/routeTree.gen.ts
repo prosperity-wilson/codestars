@@ -10,33 +10,258 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CreativeIndexRouteImport } from './routes/creative/index'
+import { Route as CreativeHireRouteImport } from './routes/creative/hire'
+import { Route as CreativePortfolioRouteImport } from './routes/creative/portfolio'
+import { Route as CreativeServicesRouteImport } from './routes/creative/services'
+import { Route as ImpactIndexRouteImport } from './routes/impact/index'
+import { Route as ImpactPartnersRouteImport } from './routes/impact/partners'
+import { Route as PromotionsIndexRouteImport } from './routes/promotions/index'
+import { Route as PromotionsSubmitRouteImport } from './routes/promotions/submit'
+import { Route as SchoolIndexRouteImport } from './routes/school/index'
+import { Route as SchoolApplyRouteImport } from './routes/school/apply'
+import { Route as SchoolFinancialAidRouteImport } from './routes/school/financial-aid'
+import { Route as SchoolProgramsRouteImport } from './routes/school/programs'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreativeIndexRoute = CreativeIndexRouteImport.update({
+  id: '/creative/',
+  path: '/creative/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreativeHireRoute = CreativeHireRouteImport.update({
+  id: '/creative/hire',
+  path: '/creative/hire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreativePortfolioRoute = CreativePortfolioRouteImport.update({
+  id: '/creative/portfolio',
+  path: '/creative/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreativeServicesRoute = CreativeServicesRouteImport.update({
+  id: '/creative/services',
+  path: '/creative/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactIndexRoute = ImpactIndexRouteImport.update({
+  id: '/impact/',
+  path: '/impact/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactPartnersRoute = ImpactPartnersRouteImport.update({
+  id: '/impact/partners',
+  path: '/impact/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromotionsIndexRoute = PromotionsIndexRouteImport.update({
+  id: '/promotions/',
+  path: '/promotions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromotionsSubmitRoute = PromotionsSubmitRouteImport.update({
+  id: '/promotions/submit',
+  path: '/promotions/submit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolIndexRoute = SchoolIndexRouteImport.update({
+  id: '/school/',
+  path: '/school/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolApplyRoute = SchoolApplyRouteImport.update({
+  id: '/school/apply',
+  path: '/school/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolFinancialAidRoute = SchoolFinancialAidRouteImport.update({
+  id: '/school/financial-aid',
+  path: '/school/financial-aid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolProgramsRoute = SchoolProgramsRouteImport.update({
+  id: '/school/programs',
+  path: '/school/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/login': typeof LoginRoute
+  '/creative/hire': typeof CreativeHireRoute
+  '/creative/portfolio': typeof CreativePortfolioRoute
+  '/creative/services': typeof CreativeServicesRoute
+  '/impact/partners': typeof ImpactPartnersRoute
+  '/promotions/submit': typeof PromotionsSubmitRoute
+  '/school/apply': typeof SchoolApplyRoute
+  '/school/financial-aid': typeof SchoolFinancialAidRoute
+  '/school/programs': typeof SchoolProgramsRoute
+  '/creative/': typeof CreativeIndexRoute
+  '/impact/': typeof ImpactIndexRoute
+  '/promotions/': typeof PromotionsIndexRoute
+  '/school/': typeof SchoolIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/login': typeof LoginRoute
+  '/creative/hire': typeof CreativeHireRoute
+  '/creative/portfolio': typeof CreativePortfolioRoute
+  '/creative/services': typeof CreativeServicesRoute
+  '/impact/partners': typeof ImpactPartnersRoute
+  '/promotions/submit': typeof PromotionsSubmitRoute
+  '/school/apply': typeof SchoolApplyRoute
+  '/school/financial-aid': typeof SchoolFinancialAidRoute
+  '/school/programs': typeof SchoolProgramsRoute
+  '/creative': typeof CreativeIndexRoute
+  '/impact': typeof ImpactIndexRoute
+  '/promotions': typeof PromotionsIndexRoute
+  '/school': typeof SchoolIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/login': typeof LoginRoute
+  '/creative/hire': typeof CreativeHireRoute
+  '/creative/portfolio': typeof CreativePortfolioRoute
+  '/creative/services': typeof CreativeServicesRoute
+  '/impact/partners': typeof ImpactPartnersRoute
+  '/promotions/submit': typeof PromotionsSubmitRoute
+  '/school/apply': typeof SchoolApplyRoute
+  '/school/financial-aid': typeof SchoolFinancialAidRoute
+  '/school/programs': typeof SchoolProgramsRoute
+  '/creative/': typeof CreativeIndexRoute
+  '/impact/': typeof ImpactIndexRoute
+  '/promotions/': typeof PromotionsIndexRoute
+  '/school/': typeof SchoolIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/community'
+    | '/contact'
+    | '/faq'
+    | '/login'
+    | '/creative/hire'
+    | '/creative/portfolio'
+    | '/creative/services'
+    | '/impact/partners'
+    | '/promotions/submit'
+    | '/school/apply'
+    | '/school/financial-aid'
+    | '/school/programs'
+    | '/creative/'
+    | '/impact/'
+    | '/promotions/'
+    | '/school/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/community'
+    | '/contact'
+    | '/faq'
+    | '/login'
+    | '/creative/hire'
+    | '/creative/portfolio'
+    | '/creative/services'
+    | '/impact/partners'
+    | '/promotions/submit'
+    | '/school/apply'
+    | '/school/financial-aid'
+    | '/school/programs'
+    | '/creative'
+    | '/impact'
+    | '/promotions'
+    | '/school'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/community'
+    | '/contact'
+    | '/faq'
+    | '/login'
+    | '/creative/hire'
+    | '/creative/portfolio'
+    | '/creative/services'
+    | '/impact/partners'
+    | '/promotions/submit'
+    | '/school/apply'
+    | '/school/financial-aid'
+    | '/school/programs'
+    | '/creative/'
+    | '/impact/'
+    | '/promotions/'
+    | '/school/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CommunityRoute: typeof CommunityRoute
+  ContactRoute: typeof ContactRoute
+  FaqRoute: typeof FaqRoute
+  LoginRoute: typeof LoginRoute
+  CreativeHireRoute: typeof CreativeHireRoute
+  CreativePortfolioRoute: typeof CreativePortfolioRoute
+  CreativeServicesRoute: typeof CreativeServicesRoute
+  ImpactPartnersRoute: typeof ImpactPartnersRoute
+  PromotionsSubmitRoute: typeof PromotionsSubmitRoute
+  SchoolApplyRoute: typeof SchoolApplyRoute
+  SchoolFinancialAidRoute: typeof SchoolFinancialAidRoute
+  SchoolProgramsRoute: typeof SchoolProgramsRoute
+  CreativeIndexRoute: typeof CreativeIndexRoute
+  ImpactIndexRoute: typeof ImpactIndexRoute
+  PromotionsIndexRoute: typeof PromotionsIndexRoute
+  SchoolIndexRoute: typeof SchoolIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +273,147 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creative/': {
+      id: '/creative/'
+      path: '/creative'
+      fullPath: '/creative/'
+      preLoaderRoute: typeof CreativeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creative/hire': {
+      id: '/creative/hire'
+      path: '/creative/hire'
+      fullPath: '/creative/hire'
+      preLoaderRoute: typeof CreativeHireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creative/portfolio': {
+      id: '/creative/portfolio'
+      path: '/creative/portfolio'
+      fullPath: '/creative/portfolio'
+      preLoaderRoute: typeof CreativePortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creative/services': {
+      id: '/creative/services'
+      path: '/creative/services'
+      fullPath: '/creative/services'
+      preLoaderRoute: typeof CreativeServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact/': {
+      id: '/impact/'
+      path: '/impact'
+      fullPath: '/impact/'
+      preLoaderRoute: typeof ImpactIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact/partners': {
+      id: '/impact/partners'
+      path: '/impact/partners'
+      fullPath: '/impact/partners'
+      preLoaderRoute: typeof ImpactPartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promotions/': {
+      id: '/promotions/'
+      path: '/promotions'
+      fullPath: '/promotions/'
+      preLoaderRoute: typeof PromotionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promotions/submit': {
+      id: '/promotions/submit'
+      path: '/promotions/submit'
+      fullPath: '/promotions/submit'
+      preLoaderRoute: typeof PromotionsSubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school/': {
+      id: '/school/'
+      path: '/school'
+      fullPath: '/school/'
+      preLoaderRoute: typeof SchoolIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school/apply': {
+      id: '/school/apply'
+      path: '/school/apply'
+      fullPath: '/school/apply'
+      preLoaderRoute: typeof SchoolApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school/financial-aid': {
+      id: '/school/financial-aid'
+      path: '/school/financial-aid'
+      fullPath: '/school/financial-aid'
+      preLoaderRoute: typeof SchoolFinancialAidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school/programs': {
+      id: '/school/programs'
+      path: '/school/programs'
+      fullPath: '/school/programs'
+      preLoaderRoute: typeof SchoolProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CommunityRoute: CommunityRoute,
+  ContactRoute: ContactRoute,
+  FaqRoute: FaqRoute,
+  LoginRoute: LoginRoute,
+  CreativeHireRoute: CreativeHireRoute,
+  CreativePortfolioRoute: CreativePortfolioRoute,
+  CreativeServicesRoute: CreativeServicesRoute,
+  ImpactPartnersRoute: ImpactPartnersRoute,
+  PromotionsSubmitRoute: PromotionsSubmitRoute,
+  SchoolApplyRoute: SchoolApplyRoute,
+  SchoolFinancialAidRoute: SchoolFinancialAidRoute,
+  SchoolProgramsRoute: SchoolProgramsRoute,
+  CreativeIndexRoute: CreativeIndexRoute,
+  ImpactIndexRoute: ImpactIndexRoute,
+  PromotionsIndexRoute: PromotionsIndexRoute,
+  SchoolIndexRoute: SchoolIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
