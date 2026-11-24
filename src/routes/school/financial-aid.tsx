@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHero, Section, Grid, CTA, Notice } from "@/components/site/blocks";
+import { PageHero, Section, Grid, CTA } from "@/components/site/blocks";
+import { SubmissionForm } from "@/components/site/SubmissionForm";
 
 export const Route = createFileRoute("/school/financial-aid")({
   head: () => ({ meta: [{"title": "Financial aid \u2014 CodeStars School"}, {"name": "description", "content": "How financial aid works at CodeStars School."}, {"property": "og:title", "content": "Financial aid \u2014 CodeStars School"}, {"property": "og:description", "content": "How financial aid works at CodeStars School."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
@@ -11,8 +12,28 @@ function Page() {
 <>
 <PageHero eyebrow="School / Financial aid" title="Cost should not decide who learns." intro="Learners who cannot afford full fees can request support when applying." />
 <Section>
-  <Grid items={[{title:"Request it",body:"Select “Yes” for financial aid on your application."},{title:"Tell us your situation",body:"We may ask a few questions to understand your need."},{title:"Get a decision",body:"Aid amounts depend on available funding for each cohort."}]} />
+  <Grid items={[{title:"Request it",body:"Complete the financial-aid form below or select “Yes” for financial aid on your school application."},{title:"Tell us your situation",body:"Share your circumstances so we can understand your need."},{title:"Get a decision",body:"Aid amounts depend on available funding for each cohort."}]} />
   <div className="mt-10"><CTA to="/school/apply">Apply with aid</CTA></div>
+</Section>
+<Section kicker="Financial aid form" title="Request financial aid">
+  <p className="mb-6 max-w-2xl text-sm text-muted-foreground">Your financial-aid application is private. Only authorized CodeStars administrators can review it. Your information will not be shared with any sponsor unless you give consent below.</p>
+  <SubmissionForm
+    table="financial_aid_applications"
+    submitLabel="Submit aid request"
+    successMessage="Your financial-aid request has been received privately. Only authorized CodeStars administrators can review it."
+    fields={[
+      { name: "name", label: "Full name", required: true },
+      { name: "email", label: "Email", type: "email", required: true },
+      { name: "phone", label: "Phone", type: "tel" },
+      { name: "program", label: "Program", type: "select", required: true,
+        options: ["Digital Literacy","Web Development Foundations","Graphic Design"] },
+      { name: "circumstances", label: "Your circumstances", type: "textarea", required: true,
+        placeholder: "Tell us about your financial situation and why you need support." },
+      { name: "motivation", label: "Why do you want to join this program?", type: "textarea", required: true },
+      { name: "consent", label: "I consent to CodeStars sharing my application information with potential sponsors for the purpose of securing financial aid.", type: "checkbox", required: true },
+    ]}
+    fieldMap={{ consent: "consent_share_sponsor" }}
+  />
 </Section>
 </>
   );

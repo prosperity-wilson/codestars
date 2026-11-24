@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHero, Section, EmailForm } from "@/components/site/blocks";
+import { PageHero, Section, Notice } from "@/components/site/blocks";
+import { SubmissionForm } from "@/components/site/SubmissionForm";
 import { ORG } from "@/components/site/nav";
 
 export const Route = createFileRoute("/contact")({
@@ -12,7 +13,18 @@ function Page() {
 <>
 <PageHero eyebrow="Contact" title="Get in touch" intro={`Email us at ${ORG.email}, or use the form below.`} />
 <Section>
-  <EmailForm subject="Message — CodeStars website" submitLabel="Send message" fields={[{name:"name",label:"Name",required:true},{name:"email",label:"Email",type:"email",required:true},{name:"topic",label:"Topic",type:"select",options:["General","Creative","School","Impact","Partnerships"]},{name:"message",label:"Message",type:"textarea",required:true}]} />
+  <SubmissionForm
+    table="contact_messages"
+    submitLabel="Send message"
+    successMessage="Your message has been received. We will reply by email."
+    fields={[
+      { name: "name", label: "Name", required: true },
+      { name: "email", label: "Email", type: "email", required: true },
+      { name: "topic", label: "Topic", type: "select", options: ["General","Creative","School","Impact","Partnerships"],
+        optionValues: { "General": "general", "Creative": "creative", "School": "school", "Impact": "impact", "Partnerships": "partnerships" } },
+      { name: "message", label: "Message", type: "textarea", required: true },
+    ]}
+  />
 </Section>
 </>
   );
