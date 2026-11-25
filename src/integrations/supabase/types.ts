@@ -7,358 +7,20 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.18"
   }
   public: {
     Tables: {
-      admin_activity_log: {
-        Row: {
-          id: string
-          admin_id: string | null
-          action: string
-          target_table: string
-          target_id: string | null
-          details: Json | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          admin_id?: string | null
-          action: string
-          target_table: string
-          target_id?: string | null
-          details?: Json | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          admin_id?: string | null
-          action?: string
-          target_table?: string
-          target_id?: string | null
-          details?: Json | null
-          created_at?: string
-        }
-      }
-      admin_profiles: {
-        Row: {
-          user_id: string
-          display_name: string | null
-          created_at: string
-        }
-        Insert: {
-          user_id: string
-          display_name?: string | null
-          created_at?: string
-        }
-        Update: {
-          user_id?: string
-          display_name?: string | null
-          created_at?: string
-        }
-      }
-      announcements: {
-        Row: {
-          id: string
-          title: string
-          body: string
-          is_published: boolean
-          published_at: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          body: string
-          is_published?: boolean
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          body?: string
-          is_published?: boolean
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      contact_messages: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          topic: string
-          message: string
-          status: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email: string
-          topic?: string
-          message: string
-          status?: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          topic?: string
-          message?: string
-          status?: string
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      courses: {
-        Row: {
-          id: string
-          title: string
-          slug: string
-          description: string
-          status: string
-          sort_order: number
-          is_published: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          slug: string
-          description: string
-          status?: string
-          sort_order?: number
-          is_published?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          slug?: string
-          description?: string
-          status?: string
-          sort_order?: number
-          is_published?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      creative_inquiries: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          phone: string | null
-          organization: string | null
-          service: string
-          budget: string | null
-          details: string
-          status: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email: string
-          phone?: string | null
-          organization?: string | null
-          service: string
-          budget?: string | null
-          details: string
-          status?: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          phone?: string | null
-          organization?: string | null
-          service?: string
-          budget?: string | null
-          details?: string
-          status?: string
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      financial_aid_applications: {
-        Row: {
-          id: string
-          school_application_id: string | null
-          name: string
-          email: string
-          phone: string | null
-          program: string
-          circumstances: string
-          motivation: string
-          evidence_refs: string | null
-          consent_share_sponsor: boolean
-          status: string
-          sponsor_decision: string | null
-          reviewed_at: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          school_application_id?: string | null
-          name: string
-          email: string
-          phone?: string | null
-          program: string
-          circumstances: string
-          motivation: string
-          evidence_refs?: string | null
-          consent_share_sponsor?: boolean
-          status?: string
-          sponsor_decision?: string | null
-          reviewed_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          school_application_id?: string | null
-          name?: string
-          email?: string
-          phone?: string | null
-          program?: string
-          circumstances?: string
-          motivation?: string
-          evidence_refs?: string | null
-          consent_share_sponsor?: boolean
-          status?: string
-          sponsor_decision?: string | null
-          reviewed_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      promotion_submissions: {
-        Row: {
-          id: string
-          submitter_name: string
-          submitter_email: string
-          category: string
-          title: string
-          link: string | null
-          details: string
-          status: string
-          published_at: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          submitter_name: string
-          submitter_email: string
-          category: string
-          title: string
-          link?: string | null
-          details: string
-          status?: string
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          submitter_name?: string
-          submitter_email?: string
-          category?: string
-          title?: string
-          link?: string | null
-          details?: string
-          status?: string
-          published_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      school_applications: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          phone: string
-          county: string | null
-          program: string
-          course_id: string | null
-          requesting_aid: boolean
-          motivation: string
-          status: string
-          created_at: string
-          reviewed_at: string | null
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email: string
-          phone: string
-          county?: string | null
-          program: string
-          course_id?: string | null
-          requesting_aid?: boolean
-          motivation: string
-          status?: string
-          created_at?: string
-          reviewed_at?: string | null
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          phone?: string
-          county?: string | null
-          program?: string
-          course_id?: string | null
-          requesting_aid?: boolean
-          motivation?: string
-          status?: string
-          created_at?: string
-          reviewed_at?: string | null
-          updated_at?: string
-        }
-      }
+      [_ in never]: never
     }
     Views: {
-      published_promotions: {
-        Row: {
-          id: string
-          category: string
-          title: string
-          link: string | null
-          details: string
-          published_at: string | null
-          created_at: string
-        }
-      }
+      [_ in never]: never
     }
     Functions: {
-      is_admin: {
-        Args: Record<never, never>
-        Returns: boolean
-      }
-      setup_admin_profile: {
-        Args: { target_user_id: string; display_name: string }
-        Returns: void
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
@@ -450,6 +112,40 @@ export type TablesUpdate<
       }
       ? U
       : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never) = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never) = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
