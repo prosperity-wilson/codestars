@@ -67,18 +67,29 @@ export function Notice({ children }: { children: ReactNode }) {
 
 type Field = { name: string; label: string; type?: "text" | "email" | "tel" | "textarea" | "select"; options?: string[]; required?: boolean };
 
-/** Composes the user's details into an email to CodeStars. Nothing is stored on this site. */
-export function EmailForm({ subject, fields, submitLabel }: { subject: string; fields: Field[]; submitLabel: string }) {
+type Row = Record<string, string | boolean | null>;
+type SubmitTable = "contact_messages" | "creative_inquiries" | "training_applications" | "promotion_submissions" | "partnership_inquiries";
+
+/** Saves the visitor's submission to the CodeStars database. Visitors can write but never read submissions. */
+export function SubmitForm({ table, toRow, fields, submitLabel, successMessage = "Thank you — we received your submission and will reply by email." }: { table: SubmitTable; toRow: (v: Record<string, string>) => Row; fields: Field[]; submitLabel: string; successMessage?: string }) {
   const [error, setError] = useState("");
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [sending, setSending] = useState(false);
+  const [done, setDone] = useState(false);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const email = String(data.get("email") ?? "");
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError("Please enter a valid email address.");
-    setError("");
-    const body = fields.map((f) => `${f.label}: ${String(data.get(f.name) ?? "").slice(0, 2000)}`).join("\n\n");
-    window.location.href = `mailto:${ORG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const v: Record<string, string> = {};
+    fields.forEach((f) => { v[f.name] = String(data.get(f.name) ?? "").trim(); });
+    if (v["email"] && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v["email"])) return setError("Please enter a valid email address.");
+    setError(""); setSending(true);
+    const row = Object.fromEntries(Object.entries(toRow(v)).map(([k, x]) => [k, x === "" ? null : x]));
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { error: err } = await supabase.from(table).insert(row as never);
+    setSending(false);
+    if (err) return setError(`We couldn't send this right now. Please try again, or email ${ORG.email}.`);
+    setDone(true);
   };
+  if (done) return <Notice>{successMessage}</Notice>;
   const cls = "mt-2 w-full border border-input bg-card px-3 py-2.5 text-sm focus:border-primary focus:outline-none";
   return (
     <form onSubmit={onSubmit} className="grid max-w-2xl gap-5">
@@ -86,7 +97,7 @@ export function EmailForm({ subject, fields, submitLabel }: { subject: string; f
         <label key={f.name} className="text-sm font-medium">
           {f.label}{f.required && <span className="text-primary"> *</span>}
           {f.type === "textarea" ? (
-            <textarea name={f.name} required={f.required} maxLength={2000} rows={5} className={cls} />
+            <textarea name={f.name} required={f.required} maxLength={5000} rows={5} className={cls} />
           ) : f.type === "select" ? (
             <select name={f.name} required={f.required} className={cls} defaultValue="">
               <option value="" disabled>Select…</option>
@@ -99,8 +110,7 @@ export function EmailForm({ subject, fields, submitLabel }: { subject: string; f
       ))}
       {error && <p className="text-sm text-primary" role="alert">{error}</p>}
       <div>
-        <button type="submit" className="bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">{submitLabel}</button>
-        <p className="mt-3 text-xs text-muted-foreground">This opens your email app with your details filled in, addressed to {ORG.email}. Online submissions are planned for a later release.</p>
+        <button type="submit" disabled={sending} className="bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60">{sending ? "Sending…" : submitLabel}</button>
       </div>
     </form>
   );

@@ -31,4 +31,4 @@ use the editor.
 
 ## Project rules
 - Site chrome (Header/Footer) and shared page blocks live in src/components/site; pages compose them so every route stays visually consistent.
-- Forms use EmailForm (mailto to the org address) until a backend is connected — nothing is stored, so no fake submissions exist.
+- Public forms use SubmitForm, which inserts into Supabase without reading back; RLS lets visitors insert only with default status, and only admins (user_roles + is_admin()) can read or change submissions.
