@@ -68,7 +68,7 @@ export function Notice({ children }: { children: ReactNode }) {
 type Field = { name: string; label: string; type?: "text" | "email" | "tel" | "textarea" | "select"; options?: string[]; required?: boolean };
 
 type Row = Record<string, string | boolean | null>;
-type SubmitTable = "contact_messages" | "creative_inquiries" | "training_applications" | "promotion_submissions" | "partnership_inquiries";
+type SubmitTable = "contact_messages" | "creative_inquiries" | "training_applications" | "promotion_submissions" | "partnership_inquiries" | "financial_aid_applications";
 
 /** Saves the visitor's submission to the CodeStars database. Visitors can write but never read submissions. */
 export function SubmitForm({ table, toRow, fields, submitLabel, successMessage = "Thank you — we received your submission and will reply by email." }: { table: SubmitTable; toRow: (v: Record<string, string>) => Row; fields: Field[]; submitLabel: string; successMessage?: string }) {

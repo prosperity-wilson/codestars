@@ -8,20 +8,14 @@ export const Route = createFileRoute("/promotions/")({
   component: Page,
 });
 
-const CATEGORY_LABELS: Record<string, string> = {
-  event: "Event",
-  product_service: "Product or service",
-  job_internship: "Job or internship",
-  training_scholarship: "Training or scholarship",
-};
-
 function Page() {
   const { data: promotions, isLoading } = useQuery({
     queryKey: ["published_promotions"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("published_promotions")
-        .select("id, category, title, link, details, published_at, created_at")
+        .from("promotions")
+        .select("id, promo_type, title, link, body, published_at")
+        .eq("is_published", true)
         .order("published_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -41,13 +35,13 @@ function Page() {
       {promotions.map((p) => (
         <div key={p.id} className="bg-background p-7">
           <div className="flex items-center justify-between font-mono text-xs text-muted-foreground">
-            <span>{CATEGORY_LABELS[p.category] ?? p.category}</span>
+            <span>{p.promo_type}</span>
             {p.published_at && (
               <span>{new Date(p.published_at).toLocaleDateString()}</span>
             )}
           </div>
           <h3 className="mt-4 text-xl font-medium">{p.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.details}</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
           {p.link && (
             <a
               href={p.link}
