@@ -11,10 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminCategoryRouteImport } from './routes/admin/$category'
+import { Route as AdminActivityRouteImport } from './routes/admin/activity'
+import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as CreativeIndexRouteImport } from './routes/creative/index'
 import { Route as CreativeHireRouteImport } from './routes/creative/hire'
 import { Route as CreativePortfolioRouteImport } from './routes/creative/portfolio'
@@ -38,6 +43,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
@@ -56,6 +66,26 @@ const FaqRoute = FaqRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCategoryRoute = AdminCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin_/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreativeIndexRoute = CreativeIndexRouteImport.update({
@@ -121,11 +151,15 @@ const SchoolProgramsRoute = SchoolProgramsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/admin/$category': typeof AdminCategoryRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/login': typeof AdminLoginRoute
   '/creative/hire': typeof CreativeHireRoute
   '/creative/portfolio': typeof CreativePortfolioRoute
   '/creative/services': typeof CreativeServicesRoute
@@ -134,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/school/apply': typeof SchoolApplyRoute
   '/school/financial-aid': typeof SchoolFinancialAidRoute
   '/school/programs': typeof SchoolProgramsRoute
+  '/admin/': typeof AdminIndexRoute
   '/creative/': typeof CreativeIndexRoute
   '/impact/': typeof ImpactIndexRoute
   '/promotions/': typeof PromotionsIndexRoute
@@ -146,6 +181,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/admin/$category': typeof AdminCategoryRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin/login': typeof AdminLoginRoute
   '/creative/hire': typeof CreativeHireRoute
   '/creative/portfolio': typeof CreativePortfolioRoute
   '/creative/services': typeof CreativeServicesRoute
@@ -154,6 +192,7 @@ export interface FileRoutesByTo {
   '/school/apply': typeof SchoolApplyRoute
   '/school/financial-aid': typeof SchoolFinancialAidRoute
   '/school/programs': typeof SchoolProgramsRoute
+  '/admin': typeof AdminIndexRoute
   '/creative': typeof CreativeIndexRoute
   '/impact': typeof ImpactIndexRoute
   '/promotions': typeof PromotionsIndexRoute
@@ -162,11 +201,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/admin/$category': typeof AdminCategoryRoute
+  '/admin/activity': typeof AdminActivityRoute
+  '/admin_/login': typeof AdminLoginRoute
   '/creative/hire': typeof CreativeHireRoute
   '/creative/portfolio': typeof CreativePortfolioRoute
   '/creative/services': typeof CreativeServicesRoute
@@ -175,6 +218,7 @@ export interface FileRoutesById {
   '/school/apply': typeof SchoolApplyRoute
   '/school/financial-aid': typeof SchoolFinancialAidRoute
   '/school/programs': typeof SchoolProgramsRoute
+  '/admin/': typeof AdminIndexRoute
   '/creative/': typeof CreativeIndexRoute
   '/impact/': typeof ImpactIndexRoute
   '/promotions/': typeof PromotionsIndexRoute
@@ -184,11 +228,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/about'
     | '/community'
     | '/contact'
     | '/faq'
     | '/login'
+    | '/admin/$category'
+    | '/admin/activity'
+    | '/admin/login'
     | '/creative/hire'
     | '/creative/portfolio'
     | '/creative/services'
@@ -197,6 +245,7 @@ export interface FileRouteTypes {
     | '/school/apply'
     | '/school/financial-aid'
     | '/school/programs'
+    | '/admin/'
     | '/creative/'
     | '/impact/'
     | '/promotions/'
@@ -209,6 +258,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/admin/$category'
+    | '/admin/activity'
+    | '/admin/login'
     | '/creative/hire'
     | '/creative/portfolio'
     | '/creative/services'
@@ -217,6 +269,7 @@ export interface FileRouteTypes {
     | '/school/apply'
     | '/school/financial-aid'
     | '/school/programs'
+    | '/admin'
     | '/creative'
     | '/impact'
     | '/promotions'
@@ -224,11 +277,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/about'
     | '/community'
     | '/contact'
     | '/faq'
     | '/login'
+    | '/admin/$category'
+    | '/admin/activity'
+    | '/admin_/login'
     | '/creative/hire'
     | '/creative/portfolio'
     | '/creative/services'
@@ -237,6 +294,7 @@ export interface FileRouteTypes {
     | '/school/apply'
     | '/school/financial-aid'
     | '/school/programs'
+    | '/admin/'
     | '/creative/'
     | '/impact/'
     | '/promotions/'
@@ -245,11 +303,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   CreativeHireRoute: typeof CreativeHireRoute
   CreativePortfolioRoute: typeof CreativePortfolioRoute
   CreativeServicesRoute: typeof CreativeServicesRoute
@@ -280,6 +340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/community': {
       id: '/community'
       path: '/community'
@@ -306,6 +373,34 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/$category': {
+      id: '/admin/$category'
+      path: '/$category'
+      fullPath: '/admin/$category'
+      preLoaderRoute: typeof AdminCategoryRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin_/login': {
+      id: '/admin_/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creative/': {
@@ -395,13 +490,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminCategoryRoute: typeof AdminCategoryRoute
+  AdminActivityRoute: typeof AdminActivityRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminCategoryRoute: AdminCategoryRoute,
+  AdminActivityRoute: AdminActivityRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
+  AdminLoginRoute: AdminLoginRoute,
   CreativeHireRoute: CreativeHireRoute,
   CreativePortfolioRoute: CreativePortfolioRoute,
   CreativeServicesRoute: CreativeServicesRoute,
