@@ -32,3 +32,4 @@ use the editor.
 ## Project rules
 - Site chrome (Header/Footer) and shared page blocks live in src/components/site; pages compose them so every route stays visually consistent.
 - Public forms use SubmitForm, which inserts into Supabase without reading back; RLS lets visitors insert only with default status, and only admins (user_roles + is_admin()) can read or change submissions.
+- Admin area lives under src/routes/admin (ssr:false gate checks is_admin() RPC) with login at /admin/login; it reads/writes through the browser Supabase client so RLS stays the real authorization, and logs actions to admin_activity. Root layout hides public Header/Footer on /admin paths.
