@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { ORG } from "./nav";
+import { Button } from "@/components/ui/button";
+import { AID_DOCUMENT_ACCEPT, AID_DOCUMENT_MAX_COUNT, validateAidDocumentContents } from "@/lib/phase1-rules";
 
 export function PageHero({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro?: string; children?: ReactNode }) {
   return (
@@ -67,14 +69,16 @@ export function Notice({ children }: { children: ReactNode }) {
 
 type Field = { name: string; label: string; type?: "text" | "email" | "tel" | "textarea" | "select"; options?: string[]; required?: boolean };
 
-type Row = Record<string, string | boolean | null>;
+type Row = Record<string, string | boolean | null | string[]>;
 type SubmitTable = "contact_messages" | "creative_inquiries" | "training_applications" | "promotion_submissions" | "partnership_inquiries" | "financial_aid_applications";
 
 /** Saves the visitor's submission to the CodeStars database. Visitors can write but never read submissions. */
-export function SubmitForm({ table, toRow, fields, submitLabel, successMessage = "Thank you — we received your submission and will reply by email." }: { table: SubmitTable; toRow: (v: Record<string, string>) => Row; fields: Field[]; submitLabel: string; successMessage?: string }) {
+export function SubmitForm({ table, toRow, fields, submitLabel, documents = false, successMessage = "Thank you — we received your submission and will reply by email." }: { table: SubmitTable; toRow: (v: Record<string, string>) => Row; fields: Field[]; submitLabel: string; documents?: boolean; successMessage?: string }) {
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
+  const uploaded = useRef(new Map<File, string>());
+  const selectedFiles = useRef<File[]>([]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -82,12 +86,33 @@ export function SubmitForm({ table, toRow, fields, submitLabel, successMessage =
     fields.forEach((f) => { v[f.name] = String(data.get(f.name) ?? "").trim(); });
     if (v["email"] && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v["email"])) return setError("Please enter a valid email address.");
     setError(""); setSending(true);
-    const row = Object.fromEntries(Object.entries(toRow(v)).map(([k, x]) => [k, x === "" ? null : x]));
-    const { supabase } = await import("@/integrations/supabase/client");
-    const { error: err } = await supabase.from(table).insert(row as never);
-    setSending(false);
-    if (err) return setError(`We couldn't send this right now. Please try again, or email ${ORG.email}.`);
-    setDone(true);
+    try {
+      const row = Object.fromEntries(Object.entries(toRow(v)).map(([k, x]) => [k, x === "" ? null : x]));
+      const { supabase } = await import("@/integrations/supabase/client");
+      if (documents && table === "financial_aid_applications") {
+        const files = selectedFiles.current;
+        if (files.length > AID_DOCUMENT_MAX_COUNT) throw new Error("Choose no more than five documents.");
+        await Promise.all(files.map(validateAidDocumentContents));
+        const paths: string[] = [];
+        for (const file of files) {
+          let path = uploaded.current.get(file);
+          if (!path) {
+            const name = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-100);
+            path = `incoming/${crypto.randomUUID()}/${name}`;
+            const { error: uploadError } = await supabase.storage.from("private-documents").upload(path, file, { contentType: file.type, upsert: false });
+            if (uploadError) throw new Error("A document couldn't be uploaded. Please try again; your completed uploads will be reused.");
+            uploaded.current.set(file, path);
+          }
+          paths.push(path);
+        }
+        row["document_paths"] = [...new Set([...(Array.isArray(row["document_paths"]) ? row["document_paths"] : []), ...paths])];
+      }
+      const { error: err } = await supabase.from(table).insert(row as never);
+      if (err) throw new Error(`We couldn't send this right now. Please try again, or email ${ORG.email}.`);
+      setDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "We couldn't send this right now. Please try again.");
+    } finally { setSending(false); }
   };
   if (done) return <Notice>{successMessage}</Notice>;
   const cls = "mt-2 w-full border border-input bg-card px-3 py-2.5 text-sm focus:border-primary focus:outline-none";
@@ -108,9 +133,13 @@ export function SubmitForm({ table, toRow, fields, submitLabel, successMessage =
           )}
         </label>
       ))}
+      {documents && table === "financial_aid_applications" && <label className="text-sm font-medium">Supporting documents (optional)
+        <input type="file" name="documents" multiple accept={AID_DOCUMENT_ACCEPT} disabled={sending} className={cls} onChange={(e) => { selectedFiles.current = Array.from(e.target.files ?? []); setError(""); }} />
+        <span className="mt-2 block text-xs text-muted-foreground">PDF, JPG or PNG. Up to five files, 10 MB each. Only authorized administrators can access them.</span>
+      </label>}
       {error && <p className="text-sm text-primary" role="alert">{error}</p>}
       <div>
-        <button type="submit" disabled={sending} className="bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60">{sending ? "Sending…" : submitLabel}</button>
+        <Button type="submit" size="lg" disabled={sending}>{sending ? "Sending…" : submitLabel}</Button>
       </div>
     </form>
   );

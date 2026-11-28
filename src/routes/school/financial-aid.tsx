@@ -17,9 +17,9 @@ function Page() {
 </Section>
 <Section kicker="Financial aid form" title="Request financial aid">
   <p className="mb-6 max-w-2xl text-sm text-muted-foreground">Your financial-aid application is private. Only authorized CodeStars administrators can review it.</p>
-  <SubmitForm table="financial_aid_applications" submitLabel="Submit aid request" successMessage="Your financial-aid request has been received privately. Only authorized CodeStars administrators can review it." toRow={(v)=>({full_name:v["name"]!,email:v["email"]!,household_situation:`Program: ${v["program"]}
+  <SubmitForm documents table="financial_aid_applications" submitLabel="Submit aid request" successMessage="Your financial-aid request has been received privately. Only authorized CodeStars administrators can review it." toRow={(v)=>({full_name:v["name"] ?? "",email:v["email"] ?? "",household_situation:`Program: ${v["program"] ?? ""}
 
-${v["circumstances"]}`,essay:v["motivation"]!})} fields={[{name:"name",label:"Full name",required:true},{name:"email",label:"Email",type:"email",required:true},{name:"program",label:"Program",type:"select",options:["Digital Literacy","Web Development Foundations","Graphic Design"],required:true},{name:"circumstances",label:"Your circumstances",type:"textarea",required:true},{name:"motivation",label:"Why do you want to join this program?",type:"textarea",required:true}]} />
+${v["circumstances"] ?? ""}`,essay:v["motivation"] ?? ""})} fields={[{name:"name",label:"Full name",required:true},{name:"email",label:"Email",type:"email",required:true},{name:"program",label:"Program",type:"select",options:["Digital Literacy","Web Development Foundations","Graphic Design"],required:true},{name:"circumstances",label:"Your circumstances",type:"textarea",required:true},{name:"motivation",label:"Why do you want to join this program?",type:"textarea",required:true}]} />
 </Section>
 </>
   );

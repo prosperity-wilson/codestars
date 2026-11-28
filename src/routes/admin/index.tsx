@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CATEGORIES } from "@/lib/admin/categories";
 import { countRows } from "@/lib/admin/db";
+import { adminMetadata } from "@/lib/admin/metadata";
 
-export const Route = createFileRoute("/admin/")({ component: Overview });
+export const Route = createFileRoute("/admin/")({ head: () => adminMetadata("Overview", "CodeStars administrative submission totals and review overview."), component: Overview });
 
 function Overview() {
   const q = useQuery({

@@ -33,3 +33,7 @@ use the editor.
 - Site chrome (Header/Footer) and shared page blocks live in src/components/site; pages compose them so every route stays visually consistent.
 - Public forms use SubmitForm, which inserts into Supabase without reading back; RLS lets visitors insert only with default status, and only admins (user_roles + is_admin()) can read or change submissions.
 - Admin area lives under src/routes/admin (ssr:false gate checks is_admin() RPC) with login at /admin/login; it reads/writes through the browser Supabase client so RLS stays the real authorization, and logs actions to admin_activity. Root layout hides public Header/Footer on /admin paths.
+- Critical aid saves, private document signing, and promotion publication use authenticated server functions with the caller's RLS client and is_admin() verification; no privileged client is needed.
+- Publication uses a submission-scoped transaction and unique index; database triggers audit aid and promotion mutations atomically so failures cannot leave unaudited changes.
+- Aid uploads use the existing insert-only incoming folder and reuse completed upload paths on retry; signed document access checks attachment membership before issuing expiring links.
+- Database workflow tests run in isolated PostgreSQL-compatible memory databases, never with fabricated records in production.

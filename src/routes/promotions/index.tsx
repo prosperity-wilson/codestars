@@ -9,8 +9,9 @@ export const Route = createFileRoute("/promotions/")({
 });
 
 function Page() {
-  const { data: promotions, isLoading } = useQuery({
+  const { data: promotions, isLoading, isError } = useQuery({
     queryKey: ["published_promotions"],
+    refetchInterval: 30_000,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("promotions")
@@ -30,7 +31,9 @@ function Page() {
 <Section>
   {isLoading ? (
     <p className="text-sm text-muted-foreground">Loading promotions…</p>
-  ) : promotions && promotions.length > 0 ? (
+   ) : isError ? (
+     <p role="alert" className="text-sm text-primary">Promotions couldn't be loaded. Please try again shortly.</p>
+   ) : promotions && promotions.length > 0 ? (
     <div className="grid gap-px border border-border bg-border md:grid-cols-2">
       {promotions.map((p) => (
         <div key={p.id} className="bg-background p-7">

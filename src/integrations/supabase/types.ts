@@ -552,6 +552,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      set_promotion_publication: {
+        Args: { p_publish: boolean; p_submission_id: string }
+        Returns: string
+      }
     }
     Enums: {
       aid_status:

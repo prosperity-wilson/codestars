@@ -38,10 +38,12 @@ export async function logActivity(action: string, table: string, recordId: strin
 export async function updateRow(c: Category, row: Row, patch: { status?: string; admin_notes?: string | null }) {
   const { data, error } = await db.from(c.table).update(patch).eq("id", row.id).select("*").single();
   if (error) throw new Error(error.message);
-  if (patch.status && patch.status !== row.status) {
+  // Aid/promotion changes are audited atomically by database triggers.
+  const databaseAudited = c.key === "financial-aid" || c.key === "promotions";
+  if (!databaseAudited && patch.status && patch.status !== row.status) {
     await logActivity("status_changed", c.table, row.id, { from: row.status, to: patch.status });
   }
-  if ("admin_notes" in patch && patch.admin_notes !== (row["admin_notes"] ?? null)) {
+  if (!databaseAudited && "admin_notes" in patch && patch.admin_notes !== (row["admin_notes"] ?? null)) {
     await logActivity("notes_updated", c.table, row.id);
   }
   return data as Row;
